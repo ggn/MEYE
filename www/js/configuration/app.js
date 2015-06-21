@@ -1,5 +1,6 @@
-angular.module('MEYE', ['ngRoute'])
-.config(function ($routeProvider, $httpProvider) {
+var $PortalApp = angular.module('MEYE', ['ngRoute']);
+
+$PortalApp.config(function ($routeProvider, $httpProvider) {
     $routeProvider.when("/", {
         templateUrl: "Views/home.html",
         controller: "",
@@ -9,12 +10,14 @@ angular.module('MEYE', ['ngRoute'])
         requiresLogin: false
     }).when("/detect", {
         templateUrl: "Views/detector/detection.html",
-        controller: "",
+        controller: "detectorcontroller",
         requiresLogin: false
-    }).when("/verify/:id?", {
-        templateUrl: "Views/Account/verify.html",
-        controller: "",
-    }).otherwise({ redirectTo: '/' });
+    })
+        //.when("/verify/:id?", {
+        //templateUrl: "Views/Account/verify.html",
+        //controller: "",
+        //})
+        .otherwise({ redirectTo: '/' });
 }).run(['$rootScope', '$location', 'AuthService', function ($rootScope, $location, AuthService) {
     $rootScope.$on('$routeChangeStart', function (event, next) {
         if (next.requiresLogin && !AuthService.isAuthenticated()) {
