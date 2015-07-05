@@ -7,28 +7,33 @@
     </div>
     <div class="new-line-row"></div>
     <div class="row">
-        <div class="small-4 columns">
+        <div class="small-8 columns">
             Angle for Left Eye
         </div>
-        <div class="small-2 columns">
-            <input type="text" class="no-margin padding5" readonly="readonly" id="sliderOutputLeft" />
-        </div>
         <div class="small-4 columns">
-            Angle for Right Eye
-        </div>
-        <div class="small-2 columns">
-            <input type="text" class="no-margin padding5" readonly="readonly" id="sliderOutputRight" />
+            <input type="text" class="no-margin padding5" readonly="readonly" id="sliderOutputLeft" />
         </div>
     </div>
     <div class="row">
-        <div class="small-6 columns">
+        <div class="small-12 columns">
             <div class="range-slider round" id="sliderLeft" data-slider data-options="step: 5; start: 0; end: 90;">
                 <span class="range-slider-handle" role="slider" tabindex="0"></span>
                 <span class="range-slider-active-segment"></span>
                 <input type="hidden">
             </div>
         </div>
-        <div class="small-6 columns">
+    </div>
+    <div class="new-line-row"></div>
+    <div class="row">
+        <div class="small-8 columns">
+            Angle for Right Eye
+        </div>
+        <div class="small-4 columns">
+            <input type="text" class="no-margin padding5" readonly="readonly" id="sliderOutputRight" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 columns">
             <div class="range-slider round" id="sliderRight" data-slider data-options="step: 5; start: 0; end: 90;">
                 <span class="range-slider-handle" role="slider" tabindex="0"></span>
                 <span class="range-slider-active-segment"></span>
@@ -38,20 +43,23 @@
     </div>
     <div class="new-line-row"></div>
     <div class="row">
+        <div class="small-12 column text-center">
+            ( point to any object and click calibrate. Keep looking at same object )
+        </div>
         <div class="small-12 column">
-            <button ng-click="calibrate();" class="button round expand alert"> Point and calibrate </button>
+            <button id="btnCalibrator" ng-click="calibrate();" class="button round expand alert"> Point and calibrate </button>
         </div>
     </div>
     <div class="new-line-row"></div>
     <div class="row">
-        <div class="small-6 columns">
+        <div class="small-12 columns">
             <div id="dataContainerOrientation">
-                No device orientation data
+                 <h1 id="alphaValue"> No device orientation data </h1>
             </div>
         </div>
-        <div class="small-6 columns">
-            <div id="dataContainerMotion">
-                No device motion data
+        <div class="small-12 columns">
+            <div id="errorMessages">
+                No Errors
             </div>
 
         </div>

@@ -1,7 +1,7 @@
 $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     var calibrated = false;
     var calibration = 0;
-    var alpha;
+    var alpha,leftEye,RightEye;
     var beta;
     var gamma;
     var x;
@@ -15,14 +15,14 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         $('#sliderOutputRight').val($('#sliderRight').attr('data-slider'));
 
         $('#sliderLeft').on('change.fndtn.slider', function () {
-            $('#sliderOutputLeft').val( $(this).attr('data-slider'));
+            $('#sliderOutputLeft').val($(this).attr('data-slider'));
         });
 
         $('#sliderRight').on('change.fndtn.slider', function () {
             $('#sliderOutputRight').val($(this).attr('data-slider'));
         });
 
-        
+
         //Find our div containers in the DOM
         var dataContainerOrientation = document.getElementById('dataContainerOrientation');
         var dataContainerMotion = document.getElementById('dataContainerMotion');
@@ -30,13 +30,19 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         //Check for support for DeviceOrientation event
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', function (event) {
-                alpha = event.alpha;
+                alpha = Math.ceil(event.alpha);
                 beta = event.beta;
                 gamma = event.gamma;
-                if (calibration > 0 && alpha == calibration) {
+                if (alpha)
+                {
+                    $('#alphaValue').html(alpha);
+                }
+                if (calibration > 0 && ((alpha > leftEye - 1 || alpha < leftEye + 1) || (alpha > RightEye - 1 || alpha < RightEye + 1))) {
                     vibrate();
                 }
             }, false);
+        } else {
+            $('#errorMessages').html("Unable to get rotation data")
         }
 
         // Check for support for DeviceMotion events
@@ -51,8 +57,19 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     };
 
     $scope.calibrate = function () {
-        calibrated = true;
-        calibration = $('#sliderLeft').attr('data-slider');
+        var obj = $("#btnCalibrator");
+        if (obj.hasClass('calibrated'))
+        {
+            calibrated = false;
+            calibration = 0;
+            $("#btnCalibrator").removeClass('success calibrated').addClass('alert').text("Point & Calibrate");
+        } else {
+            calibrated = true;
+            calibration = Math.ceil(alpha);
+            leftEye = 360 + calibration - $('#sliderLeft').attr('data-slider');
+            RightEye = (calibration + $('#sliderRight').attr('data-slider')) % 360;
+            $("#btnCalibrator").removeClass('alert').addClass('success calibrated').text("Stop Calibration");
+        }
     };
 
     var vibrate = function () {
@@ -60,6 +77,7 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             navigator.vibrate(1000);
         } else {
             console.log("Unable to vibrate");
+            $('#errorMessages').html("Unable to vibrate")
         }
     };
 });
