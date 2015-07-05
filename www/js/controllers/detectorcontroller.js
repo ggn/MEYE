@@ -33,7 +33,9 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
                 var temp = Math.ceil(event.alpha);
                 alpha = temp - (temp % 10);
                 $('#alphaValue').html(0);
-                if (calibration > 0 && ((alpha > leftEye - 1 || alpha < leftEye + 1) || (alpha > RightEye - 1 || alpha < RightEye + 1))) {
+                var tempLeft = leftEye - (leftEye % 10);
+                var tempRight = RightEye - (RightEye % 10);
+                if (calibration > 0 && ((alpha == tempLeft) || (alpha == RightEye))) {
                     showCalibratedAngle()
                     startVibrate(1000);
                 }
@@ -71,6 +73,10 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             $("#btnCalibrator").removeClass('alert').addClass('success calibrated').text("Stop Calibration");
         }
     };
+
+    $scope.vibrate = function () {
+        startVibrate(1000);
+    }
 
     function startVibrate(level) {
         navigator.vibrate(level);
