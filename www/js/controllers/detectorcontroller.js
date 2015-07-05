@@ -34,8 +34,8 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
                 alpha = temp - (temp % 10);
                 $('#alphaValue').html(0);
                 if (calibration > 0 && ((alpha > leftEye - 1 || alpha < leftEye + 1) || (alpha > RightEye - 1 || alpha < RightEye + 1))) {
-                    showCalibratedAngle(alpha, calibration)
-                    vibrate();
+                    showCalibratedAngle()
+                    startVibrate(1000);
                 }
             }, false);
         } else {
@@ -58,28 +58,23 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         if (obj.hasClass('calibrated')) {
             calibrated = false;
             calibration = 0;
-            beta = 0;
-            gamma = 0;
+            //beta = 0;
+            //gamma = 0;
             $("#btnCalibrator").removeClass('success calibrated').addClass('alert').text("Point & Calibrate");
         } else {
             calibrated = true;
             calibration = Math.ceil(alpha);
-            beta = event.beta;
-            gamma = event.gamma;
+            //beta = event.beta;
+            //gamma = event.gamma;
             leftEye = 360 + calibration - $('#sliderLeft').attr('data-slider');
             RightEye = (calibration + $('#sliderRight').attr('data-slider')) % 360;
             $("#btnCalibrator").removeClass('alert').addClass('success calibrated').text("Stop Calibration");
         }
     };
 
-    var vibrate = function () {
-        var navVibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate || window.navigator.vibrate ;
-        if (navVibrate) {
-            navVibrate(300);
-        } else {
-            showError("Unable to vibrate " + navVibrate);
-        }
-    };
+    function startVibrate(level) {
+        navigator.vibrate(level);
+    }
 
     var showError = function (msg) {
         var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
@@ -88,12 +83,14 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
 
     var showCalibratedAngle = function () {
         var calibratedAngleToDisplay = 0;
-        if (calibration - leftEye < 0 && alpha > calibration) {
+        var leftSetting = $('#sliderLeft').attr('data-slider');
+        var rightSetting = $('#sliderRight').attr('data-slider');
+        if (calibration - leftSetting < 0 && alpha > calibration) {
             calibratedAngleToDisplay = calibration + (360 - alpha);
             $('#alphaValue').html(calibratedAngleToDisplay);
             return false;
         }
-        if (calibration + rightEye > 360 && alpha < calibration) {
+        if (calibration + rightSetting > 360 && alpha < calibration) {
             calibratedAngleToDisplay = (360 - calibration) + alpha;
             $('#alphaValue').html(calibratedAngleToDisplay);
             return false;
