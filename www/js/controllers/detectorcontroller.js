@@ -73,12 +73,11 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     };
 
     var vibrate = function () {
-        navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-        if (navigator.vibrate) {
-            navigator.vibrate(1000);
+        var navVibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate || window.navigator.vibrate ;
+        if (navVibrate) {
+            navVibrate(300);
         } else {
-            console.log("Unable to vibrate");
-            showError("Unable to vibrate");
+            showError("Unable to vibrate " + navVibrate);
         }
     };
 
@@ -89,13 +88,13 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
 
     var showCalibratedAngle = function () {
         var calibratedAngleToDisplay = 0;
-        if (calibration - leftEye < 0 && alpha < 360) {
-            calibratedAngleToDisplay = calibration + (359 - alpha);
+        if (calibration - leftEye < 0 && alpha > calibration) {
+            calibratedAngleToDisplay = calibration + (360 - alpha);
             $('#alphaValue').html(calibratedAngleToDisplay);
             return false;
         }
-        if (calibration + rightEye > 359 && alpha > 0) {
-            calibratedAngleToDisplay = (359 - calibration) + alpha;
+        if (calibration + rightEye > 360 && alpha < calibration) {
+            calibratedAngleToDisplay = (360 - calibration) + alpha;
             $('#alphaValue').html(calibratedAngleToDisplay);
             return false;
         }
