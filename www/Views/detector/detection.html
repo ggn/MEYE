@@ -1,4 +1,48 @@
 ﻿<div ng-init="init()">
+    <div class="new-line-row"></div>
+    <div class="row">
+        <div class="small-12 columns text-center">
+            <b> Please set angles to test your eyes</b>
+        </div>
+    </div>
+    <div class="new-line-row"></div>
+    <div class="row">
+        <div class="small-4 columns">
+            Angle for Left Eye
+        </div>
+        <div class="small-2 columns">
+            <input type="text" class="no-margin padding5" readonly="readonly" id="sliderOutputLeft" />
+        </div>
+        <div class="small-4 columns">
+            Angle for Right Eye
+        </div>
+        <div class="small-2 columns">
+            <input type="text" class="no-margin padding5" readonly="readonly" id="sliderOutputRight" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-6 columns">
+            <div class="range-slider round" id="sliderLeft" data-slider data-options="step: 5; start: 0; end: 90;">
+                <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                <span class="range-slider-active-segment"></span>
+                <input type="hidden">
+            </div>
+        </div>
+        <div class="small-6 columns">
+            <div class="range-slider round" id="sliderRight" data-slider data-options="step: 5; start: 0; end: 90;">
+                <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                <span class="range-slider-active-segment"></span>
+                <input type="hidden">
+            </div>
+        </div>
+    </div>
+    <div class="new-line-row"></div>
+    <div class="row">
+        <div class="small-12 column">
+            <button ng-click="calibrate();" class="button round expand alert"> Point and calibrate </button>
+        </div>
+    </div>
+    <div class="new-line-row"></div>
     <div class="row">
         <div class="small-6 columns">
             <div id="dataContainerOrientation">
@@ -13,4 +57,3 @@
         </div>
     </div>
 </div>
-

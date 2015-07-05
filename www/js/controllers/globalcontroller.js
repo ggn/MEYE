@@ -34,6 +34,13 @@ $PortalApp.controller('globalController', function ($scope, AuthService, $locati
         alert("Failure");
     });
 
+    $scope.$on("vibrate", function (secs) {
+        if (window.navigator && window.navigator.vibrate) {
+            navigator.vibrate(secs);
+        } else {
+            console.log("Unable to vibrate");
+        }
+    });
 
     $scope.initiate = function () {
         var userToken = AuthService.isAuthenticated();
