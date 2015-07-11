@@ -33,7 +33,7 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
                 var temp = Math.ceil(event.alpha);
                 alpha = temp - (temp % 10);
                 showCalibratedAngle();
-                if (calibration <= 0 && (alpha == leftEye) || (alpha == RightEye)) {
+                if (calibration <= 0 && ((alpha == leftEye) || (alpha == RightEye))) {
                         $('#rotationachived').css('background-color', 'green');
                         startVibrate(1000);
                     } else {
