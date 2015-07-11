@@ -38,11 +38,9 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
                 $('#calibration').html(calibration);
                 if (calibration > 0 && ((alpha == leftEye) || (alpha == RightEye))) {
                     //showCalibratedAngle();
-                    $('#rotationachived').css('background-color','red');
+                    $('#rotationachived').css('background-color','green');
                     startVibrate(1000);
-                } else {
-                    $('#alphaValue').html(0);
-                }
+                }       
             }, false);
         } else {
             showError("Unable to get rotation data")
