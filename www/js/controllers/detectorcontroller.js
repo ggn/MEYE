@@ -32,12 +32,12 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             window.addEventListener('deviceorientation', function (event) {
                 var temp = Math.ceil(event.alpha);
                 alpha = temp - (temp % 10);
-                $('#alphaValue').html(0);
-                var tempLeft = leftEye - (leftEye % 10);
-                var tempRight = RightEye - (RightEye % 10);
+                $('#alphaValue').html(alpha);
                 if (calibration > 0 && ((alpha == tempLeft) || (alpha == RightEye))) {
-                    showCalibratedAngle()
+                    //showCalibratedAngle();
                     startVibrate(1000);
+                } else {
+                    $('#alphaValue').html(0);
                 }
             }, false);
         } else {
@@ -68,7 +68,8 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             calibration = Math.ceil(alpha);
             //beta = event.beta;
             //gamma = event.gamma;
-            leftEye = 360 + calibration - $('#sliderLeft').attr('data-slider');
+            var tempLeftEye = calibration - $('#sliderLeft').attr('data-slider') 
+            leftEye = tempLeftEye > 0 ? tempLeftEye : 360 + tempLeftEye;
             RightEye = (calibration + $('#sliderRight').attr('data-slider')) % 360;
             $("#btnCalibrator").removeClass('alert').addClass('success calibrated').text("Stop Calibration");
         }
