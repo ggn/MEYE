@@ -32,20 +32,13 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             window.addEventListener('deviceorientation', function (event) {
                 var temp = Math.ceil(event.alpha);
                 alpha = temp - (temp % 10);
-                if (calibration <= 0) {
-                    leftEye = 0;
-                    RightEye = 0;
-                    alpha = 0;
-                    $('#rotationachived').css('background-color', 'red');
-                    showCalibratedAngle();
-                } else {
-                    showCalibratedAngle();
-                    if ((alpha == leftEye) || (alpha == RightEye)) {
+                showCalibratedAngle();
+                if (calibration <= 0 && (alpha == leftEye) || (alpha == RightEye)) {
                         $('#rotationachived').css('background-color', 'green');
                         startVibrate(1000);
+                    } else {
+                        $('#rotationachived').css('background-color', 'red');
                     }
-                }
-
             }, false);
         } else {
             showError("Unable to get rotation data")
@@ -67,8 +60,8 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         if (obj.hasClass('calibrated')) {
             calibrated = false;
             calibration = 0;
-            //beta = 0;
-            //gamma = 0;
+            leftEye = 0;
+            RightEye = 0;
             $("#btnCalibrator").removeClass('success calibrated').addClass('alert').text("Point & Calibrate");
         } else {
             calibrated = true;
