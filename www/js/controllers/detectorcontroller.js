@@ -32,15 +32,18 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             window.addEventListener('deviceorientation', function (event) {
                 var temp = Math.ceil(event.alpha);
                 alpha = temp - (temp % 10);
-                $('#alphaValue').html(alpha);
-                $('#leftValue').html(leftEye);
-                $('#rightValue').html(RightEye);
-                $('#calibration').html(calibration);
-                if (calibration > 0 && ((alpha == leftEye) || (alpha == RightEye))) {
-                    //showCalibratedAngle();
-                    $('#rotationachived').css('background-color','green');
-                    startVibrate(1000);
-                }       
+                if (calibration <= 0) {
+                    leftEye = 0;
+                    RightEye = 0;
+                    alpha = 0;
+                } else {
+                    if ((alpha == leftEye) || (alpha == RightEye)) {
+                        showCalibratedAngle();
+                        $('#rotationachived').css('background-color', 'green');
+                        startVibrate(1000);
+                    }
+                }
+
             }, false);
         } else {
             showError("Unable to get rotation data")
@@ -70,7 +73,7 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             calibration = Math.ceil(alpha);
             //beta = event.beta;
             //gamma = event.gamma;
-            var tempLeftEye = calibration - $('#sliderLeft').attr('data-slider') 
+            var tempLeftEye = calibration - $('#sliderLeft').attr('data-slider')
             leftEye = tempLeftEye > 0 ? tempLeftEye : 360 + tempLeftEye;
             RightEye = (calibration + $('#sliderRight').attr('data-slider')) % 360;
             $("#btnCalibrator").removeClass('alert').addClass('success calibrated').text("Stop Calibration");
@@ -91,21 +94,27 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     }
 
     var showCalibratedAngle = function () {
-        var calibratedAngleToDisplay = 0;
-        var leftSetting = $('#sliderLeft').attr('data-slider');
-        var rightSetting = $('#sliderRight').attr('data-slider');
-        if (calibration - leftSetting < 0 && alpha > calibration) {
-            calibratedAngleToDisplay = calibration + (360 - alpha);
-            $('#alphaValue').html(calibratedAngleToDisplay);
-            return false;
-        }
-        if (calibration + rightSetting > 360 && alpha < calibration) {
-            calibratedAngleToDisplay = (360 - calibration) + alpha;
-            $('#alphaValue').html(calibratedAngleToDisplay);
-            return false;
-        }
-        calibratedAngleToDisplay = (calibration > alpha) ? calibration - alpha : alpha - calibration;
-        $('#alphaValue').html(calibratedAngleToDisplay);
+
+        $('#alphaValue').html(alpha);
+        $('#leftValue').html(leftEye);
+        $('#rightValue').html(RightEye);
+        $('#calibration').html(calibration);
+
+        //var calibratedAngleToDisplay = 0;
+        //var leftSetting = $('#sliderLeft').attr('data-slider');
+        //var rightSetting = $('#sliderRight').attr('data-slider');
+        //if (calibration - leftSetting < 0 && alpha > calibration) {
+        //    calibratedAngleToDisplay = calibration + (360 - alpha);
+        //    $('#alphaValue').html(calibratedAngleToDisplay);
+        //    return false;
+        //}
+        //if (calibration + rightSetting > 360 && alpha < calibration) {
+        //    calibratedAngleToDisplay = (360 - calibration) + alpha;
+        //    $('#alphaValue').html(calibratedAngleToDisplay);
+        //    return false;
+        //}
+        //calibratedAngleToDisplay = (calibration > alpha) ? calibration - alpha : alpha - calibration;
+        //$('#alphaValue').html(calibratedAngleToDisplay);
     }
 });
 
