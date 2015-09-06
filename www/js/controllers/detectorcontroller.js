@@ -1,10 +1,13 @@
 $PortalApp.controller('detectorcontroller', function ($scope, $http) {
-    var calibrated = false,
-        calibration = 0,
-        alpha, leftEye, RightEye,
-        beta, gamma, x, y, z, r;
+    var angles = {
+        alpha: 0,
+        leftEye: 0,
+        rightEye: 0,
+        calibration: 0
+    };
 
     $scope.init = function () {
+
         $(document).foundation('slider', 'reflow');
         $('#sliderOutputLeft').val($('#sliderLeft').attr('data-slider'));
         $('#sliderOutputRight').val($('#sliderRight').attr('data-slider'));
@@ -23,9 +26,9 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', function (event) {
                 var temp = Math.ceil(event.alpha);
-                alpha = temp - (temp % 10);
+                angles.alpha = temp - (temp % 10);
                 showCalibratedAngle();
-                if (calibration <= 0 && ((alpha == leftEye) || (alpha == RightEye))) {
+                if (angles.calibration >= 0 && ((angles.alpha == angles.leftEye) || (angles.alpha == angles.rightEye))) {
                     $('#rotationachived').css('background-color', 'green');
                     startVibrate(1000);
                 } else {
@@ -33,17 +36,7 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
                 }
             }, false);
         } else {
-            showError("Unable to get rotation data")
-        }
-
-        // Check for support for DeviceMotion events
-        if (window.DeviceMotionEvent) {
-            window.addEventListener('devicemotion', function (event) {
-                x = event.accelerationIncludingGravity.x;
-                y = event.accelerationIncludingGravity.y;
-                z = event.accelerationIncludingGravity.z;
-                r = event.rotationRate;
-            });
+            showError("Unable to get rotation data");
         }
     };
 
@@ -51,16 +44,15 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         var obj = $("#btnCalibrator");
         if (obj.hasClass('calibrated')) {
             calibrated = false;
-            calibration = 0;
-            leftEye = 0;
-            RightEye = 0;
+            angles.calibration = 0;
+            angles.leftEye = 0;
+            angles.rightEye = 0;
             $("#btnCalibrator").removeClass('success calibrated').addClass('alert').text("Point & Calibrate");
         } else {
-            calibrated = true;
-            calibration = Math.ceil(alpha);
-            LeftEye = (calibration + $('#sliderLeft').attr('data-slider')) % 360;
-            RightEye = calibration - $('#sliderRight').attr('data-slider');
-            RightEye = RightEye > 0 ? RightEye : 360 + RightEye;
+            angles.calibration = Math.ceil(alpha);
+            angles.leftEye = (calibration + $('#sliderLeft').attr('data-slider')) % 360;
+            var tempRightEye = calibration - $('#sliderRight').attr('data-slider');
+            angles.rightEye = tempRightEye > 0 ? tempRightEye : 360 + tempRightEye;
             $("#btnCalibrator").removeClass('alert').addClass('success calibrated').text("Stop Calibration");
         }
     };
@@ -79,9 +71,9 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     }
 
     var showCalibratedAngle = function () {
-        $('#alphaValue').html(alpha);
-        $('#leftValue').html(leftEye);
-        $('#rightValue').html(RightEye);
-        $('#calibration').html(calibration);
+        $('#alphaValue').html(angles.alpha);
+        $('#leftValue').html(angles.leftEye);
+        $('#rightValue').html(angles.rightEye);
+        $('#calibration').html(angles.calibration);
     }
 });
