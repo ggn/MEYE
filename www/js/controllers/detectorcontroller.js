@@ -1,10 +1,23 @@
 $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     var angles = {
-        alpha: 0,
-        leftEye: 0,
-        rightEye: 0,
-        calibration: 0
-    };
+            alpha: 0,
+            leftEye: 0,
+            rightEye: 0,
+            calibration: 0
+        },
+        startVibrate = function (level) {
+            navigator.vibrate(level);
+        },
+        showError = function (msg) {
+            var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
+            $('#errorMessages').html(error);
+        },
+        showCalibratedAngle = function () {
+            $('#alphaValue').html(angles.alpha);
+            $('#leftValue').html(angles.leftEye);
+            $('#rightValue').html(angles.rightEye);
+            $('#calibration').html(angles.calibration);
+        };
 
     $scope.init = function () {
 
@@ -48,9 +61,9 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             angles.rightEye = 0;
             $("#btnCalibrator").removeClass('success calibrated').addClass('alert').text("Point & Calibrate");
         } else {
-            angles.calibration = Math.ceil(alpha);
-            angles.leftEye = (calibration + $('#sliderLeft').attr('data-slider')) % 360;
-            var tempRightEye = calibration - $('#sliderRight').attr('data-slider');
+            angles.calibration = angles.alpha;
+            angles.leftEye = (angles.calibration + $('#sliderLeft').attr('data-slider')) % 360;
+            var tempRightEye = angles.calibration - $('#sliderRight').attr('data-slider');
             angles.rightEye = tempRightEye > 0 ? tempRightEye : 360 + tempRightEye;
             $("#btnCalibrator").removeClass('alert').addClass('success calibrated').text("Stop Calibration");
         }
@@ -59,18 +72,4 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     $scope.vibrate = function () {
         startVibrate(1000);
     };
-
-    var startVibrate = function (level) {
-            navigator.vibrate(level);
-        },
-        showError = function (msg) {
-            var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
-            $('#errorMessages').html(error);
-        },
-        showCalibratedAngle = function () {
-            $('#alphaValue').html(angles.alpha);
-            $('#leftValue').html(angles.leftEye);
-            $('#rightValue').html(angles.rightEye);
-            $('#calibration').html(angles.calibration);
-        };
 });
