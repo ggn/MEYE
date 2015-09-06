@@ -19,8 +19,8 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         });
 
         //Find our div containers in the DOM
-        var dataContainerOrientation = document.getElementById('dataContainerOrientation');
-        var dataContainerMotion = document.getElementById('dataContainerMotion');
+        var dataContainerOrientation = document.getElementById('dataContainerOrientation'),
+            dataContainerMotion = document.getElementById('dataContainerMotion');
 
         //Check for support for DeviceOrientation event
         if (window.DeviceOrientationEvent) {
@@ -28,7 +28,7 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
                 var temp = Math.ceil(event.alpha);
                 angles.alpha = temp - (temp % 10);
                 showCalibratedAngle();
-                if (angles.calibration >= 0 && ((angles.alpha == angles.leftEye) || (angles.alpha == angles.rightEye))) {
+                if (angles.calibration >= 0 && ((angles.alpha === angles.leftEye) || (angles.alpha === angles.rightEye))) {
                     $('#rotationachived').css('background-color', 'green');
                     startVibrate(1000);
                 } else {
@@ -43,7 +43,6 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     $scope.calibrate = function () {
         var obj = $("#btnCalibrator");
         if (obj.hasClass('calibrated')) {
-            calibrated = false;
             angles.calibration = 0;
             angles.leftEye = 0;
             angles.rightEye = 0;
@@ -59,21 +58,19 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
 
     $scope.vibrate = function () {
         startVibrate(1000);
-    }
+    };
 
-    function startVibrate(level) {
-        navigator.vibrate(level);
-    }
-
-    var showError = function (msg) {
-        var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
-        $('#errorMessages').html(error);
-    }
-
-    var showCalibratedAngle = function () {
-        $('#alphaValue').html(angles.alpha);
-        $('#leftValue').html(angles.leftEye);
-        $('#rightValue').html(angles.rightEye);
-        $('#calibration').html(angles.calibration);
-    }
+    var startVibrate = function (level) {
+            navigator.vibrate(level);
+        },
+        showError = function (msg) {
+            var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
+            $('#errorMessages').html(error);
+        },
+        showCalibratedAngle = function () {
+            $('#alphaValue').html(angles.alpha);
+            $('#leftValue').html(angles.leftEye);
+            $('#rightValue').html(angles.rightEye);
+            $('#calibration').html(angles.calibration);
+        };
 });
