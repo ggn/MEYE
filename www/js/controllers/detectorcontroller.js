@@ -1,27 +1,19 @@
 $PortalApp.controller('detectorcontroller', function ($scope, $http) {
-    var calibrated = false;
-    var calibration = 0;
-    var alpha, leftEye, RightEye;
-    var beta;
-    var gamma;
-    var x;
-    var y;
-    var z;
-    var r;
-    $scope.init = function () {
+    var calibrated = false,
+        calibration = 0,
+        alpha, leftEye, RightEye,
+        beta, gamma, x, y, z, r;
 
+    $scope.init = function () {
         $(document).foundation('slider', 'reflow');
         $('#sliderOutputLeft').val($('#sliderLeft').attr('data-slider'));
         $('#sliderOutputRight').val($('#sliderRight').attr('data-slider'));
-
         $('#sliderLeft').on('change.fndtn.slider', function () {
             $('#sliderOutputLeft').val($(this).attr('data-slider'));
         });
-
         $('#sliderRight').on('change.fndtn.slider', function () {
             $('#sliderOutputRight').val($(this).attr('data-slider'));
         });
-
 
         //Find our div containers in the DOM
         var dataContainerOrientation = document.getElementById('dataContainerOrientation');
@@ -34,11 +26,11 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
                 alpha = temp - (temp % 10);
                 showCalibratedAngle();
                 if (calibration <= 0 && ((alpha == leftEye) || (alpha == RightEye))) {
-                        $('#rotationachived').css('background-color', 'green');
-                        startVibrate(1000);
-                    } else {
-                        $('#rotationachived').css('background-color', 'red');
-                    }
+                    $('#rotationachived').css('background-color', 'green');
+                    startVibrate(1000);
+                } else {
+                    $('#rotationachived').css('background-color', 'red');
+                }
             }, false);
         } else {
             showError("Unable to get rotation data")
@@ -66,11 +58,9 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         } else {
             calibrated = true;
             calibration = Math.ceil(alpha);
-            //beta = event.beta;
-            //gamma = event.gamma;
-            var tempLeftEye = calibration - $('#sliderLeft').attr('data-slider')
-            leftEye = tempLeftEye > 0 ? tempLeftEye : 360 + tempLeftEye;
-            RightEye = (calibration + $('#sliderRight').attr('data-slider')) % 360;
+            LeftEye = (calibration + $('#sliderLeft').attr('data-slider')) % 360;
+            RightEye = calibration - $('#sliderRight').attr('data-slider');
+            RightEye = RightEye > 0 ? RightEye : 360 + RightEye;
             $("#btnCalibrator").removeClass('alert').addClass('success calibrated').text("Stop Calibration");
         }
     };
@@ -84,33 +74,14 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     }
 
     var showError = function (msg) {
-        var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
+        var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">Ã—</a></div>';
         $('#errorMessages').html(error);
     }
 
     var showCalibratedAngle = function () {
-
         $('#alphaValue').html(alpha);
         $('#leftValue').html(leftEye);
         $('#rightValue').html(RightEye);
         $('#calibration').html(calibration);
-
-        //var calibratedAngleToDisplay = 0;
-        //var leftSetting = $('#sliderLeft').attr('data-slider');
-        //var rightSetting = $('#sliderRight').attr('data-slider');
-        //if (calibration - leftSetting < 0 && alpha > calibration) {
-        //    calibratedAngleToDisplay = calibration + (360 - alpha);
-        //    $('#alphaValue').html(calibratedAngleToDisplay);
-        //    return false;
-        //}
-        //if (calibration + rightSetting > 360 && alpha < calibration) {
-        //    calibratedAngleToDisplay = (360 - calibration) + alpha;
-        //    $('#alphaValue').html(calibratedAngleToDisplay);
-        //    return false;
-        //}
-        //calibratedAngleToDisplay = (calibration > alpha) ? calibration - alpha : alpha - calibration;
-        //$('#alphaValue').html(calibratedAngleToDisplay);
     }
 });
-
-
