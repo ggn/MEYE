@@ -14,7 +14,7 @@ $PortalApp.config(function ($routeProvider, $httpProvider) {
         requiresLogin: false
     }).when("/FAQ", {
         templateUrl: "Views/glaucoma/FAQ.html",
-        controller: "",
+        controller: "faqcontroller",
         requiresLogin: false
     })
         //.when("/verify/:id?", {
