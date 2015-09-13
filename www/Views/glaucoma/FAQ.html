@@ -1,0 +1,51 @@
+﻿<br />
+<div class="row">
+    <div class="panel callout radius">
+        <h3>
+            FAQ</h3>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="small-12 columns">
+        <button onclick="displayans(1)">
+            1. What's the difference between glaucoma and ocular hypertension?</button><br />
+        <p id="demo1" style="background-color: lightblue; display: none;">
+            Ans. Ocular hypertension is another term for high eye pressure. In ocular hypertension,
+            IOP is higher than normal but does not cause optic nerve damage and vision loss.
+            Ocular hypertension is a risk factor for glaucoma and should be monitored closely.
+        </p>
+        <button onclick="displayans(2)">
+            2. Why does my eye doctor want to do more than one kind of glaucoma test?</button><br />
+        <p id="demo2" style="background-color: lightblue; display: none;">
+            Ans. The 'puff test' that most people are familiar with is a screening test that
+            measures IOP. But the gold standard for measuring eye pressure is applanation tonometry.
+            In this glaucoma test, an eye drop is used to numb the surface of your eye and a
+            small probe rests gently on your cornea to measure IOP. Your doctor may also want
+            to check for optic nerve damage by dilating your eyes, or to check for vision loss
+            with a visual field test.
+        </p>
+        <button onclick="displayans(3)">
+            3. What are the different types of glaucoma?</button><br />
+        <p id="demo3" style="background-color: lightblue; display: none;">
+            Ans. Primary open-angle glaucoma (POAG) is the most common form of glaucoma. The
+            other types are: normal-tension, narrow-angle, closed-angle, congenital, pigmentary
+            and secondary.
+        </p>
+        <button onclick="displayans(4)">
+            4. Is glaucoma curable?</button><br />
+        <p id="demo4" style="background-color: lightblue; display: none;">
+            Ans. Vision loss from glaucoma cannot be reversed. Routine eye exams are essential
+            to discover glaucoma early and begin glaucoma treatment before significant vision
+            loss has occurred.
+        </p>
+    </div>
+</div>
+<script>
+    function displayans(n) {
+
+        $('p[id*=demo]').not('#demo' + n).hide();
+        $('#demo' + n).toggle();
+    }
+            
+</script>

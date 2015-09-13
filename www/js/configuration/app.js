@@ -12,6 +12,10 @@ $PortalApp.config(function ($routeProvider, $httpProvider) {
         templateUrl: "Views/detector/detection.html",
         controller: "detectorcontroller",
         requiresLogin: false
+    }).when("/FAQ", {
+        templateUrl: "Views/glaucoma/FAQ.html",
+        controller: "",
+        requiresLogin: false
     })
         //.when("/verify/:id?", {
         //templateUrl: "Views/Account/verify.html",
