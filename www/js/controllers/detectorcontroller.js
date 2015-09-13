@@ -1,12 +1,16 @@
 $PortalApp.controller('detectorcontroller', function ($scope, $http) {
     var angles = {
-            alpha: 0,
-            leftEye: 0,
-            rightEye: 0,
-            calibration: 0
-        },
+        alpha: 0,
+        leftEye: 0,
+        rightEye: 0,
+        calibration: 0,
+        calibrated: false
+    },
         startVibrate = function (level) {
             navigator.vibrate(level);
+        },
+        stopVibrate = function () {
+            navigator.vibrate(0);
         },
         showError = function (msg) {
             var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
@@ -41,7 +45,7 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
                 var temp = Math.ceil(event.alpha);
                 angles.alpha = temp - (temp % 10);
                 showCalibratedAngle();
-                if (angles.calibration >= 0 && ((angles.alpha === angles.leftEye) || (angles.alpha === angles.rightEye))) {
+                if (angles.calibrated && ((angles.alpha === angles.leftEye) || (angles.alpha === angles.rightEye))) {
                     $('#rotationachived').css('background-color', 'green');
                     startVibrate(1000);
                 } else {
@@ -59,8 +63,11 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             angles.calibration = 0;
             angles.leftEye = 0;
             angles.rightEye = 0;
+            angles.calibrated = false;
+            stopVibrate();
             $("#btnCalibrator").removeClass('success calibrated').addClass('alert').text("Point & Calibrate");
         } else {
+            angles.calibrated = true;
             angles.calibration = angles.alpha;
             angles.leftEye = (angles.calibration + $('#sliderLeft').attr('data-slider')) % 360;
             var tempRightEye = angles.calibration - $('#sliderRight').attr('data-slider');
