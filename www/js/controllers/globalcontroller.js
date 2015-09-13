@@ -1,6 +1,12 @@
 
 $PortalApp.controller('globalController', function ($scope, AuthService, $location) {
 
+    function onDeviceReady() {
+        // Now safe to use the Cordova API
+    }
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+
     $scope.logout = function () {
         AuthService.logout();
         $location.path("/login");
@@ -17,6 +23,20 @@ $PortalApp.controller('globalController', function ($scope, AuthService, $locati
         return false;
     };
 
+    var onConfirm = function (button) {
+        if (button == 2) {//If User selected No, then we just do nothing
+            return;
+        } else {
+            if (navigator.app) {
+                navigator.app.exitApp();
+            } else if (navigator.device) {
+                navigator.device.exitApp();
+            }
+        }
+    }
+    $scope.confirmExit = function () {
+        navigator.notification.confirm("Are you sure you want to exit ?", onConfirm, "Confirmation", "Yes,No");
+    }
 
     $scope.UserName = AuthService.isAuthenticated();
     $scope.GetDateTimeNow = function () {
