@@ -62,8 +62,8 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             $("#btnCalibrator").removeClass('success calibrated').addClass('alert').text("Point & Calibrate");
         } else {
             angles.calibration = angles.alpha;
-            angles.leftEye = (angles.calibration + $('#sliderLeft').attr('data-slider')) % 360;
-            var tempRightEye = angles.calibration - $('#sliderRight').attr('data-slider');
+            angles.leftEye = (angles.calibration + parseInt($('#sliderLeft').attr('data-slider'))) % 360;
+            var tempRightEye = angles.calibration - parseInt($('#sliderRight').attr('data-slider'));
             angles.rightEye = tempRightEye > 0 ? tempRightEye : 360 + tempRightEye;
             $("#btnCalibrator").removeClass('alert').addClass('success calibrated').text("Stop Calibration");
         }
