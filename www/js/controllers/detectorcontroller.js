@@ -9,7 +9,7 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         startVibrate = function (level) {
             level = parseInt(level);
             if (window.navigator && window.navigator.vibrate) {
-                navigator.vibrate(level);
+                window.navigator.vibrate(level);
             } else {
                 navigator.notification.beep(level)
             }
