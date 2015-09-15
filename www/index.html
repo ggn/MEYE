@@ -41,7 +41,6 @@
                             <li><a href="#FAQ">FAQ</a></li>
                             <li><a href="#">Contact Us</a></li>
                             <li><a href="#">Device Compatibility</a></li>
-                            <li><button ng-click="exitbtn();" class="button expand alert">Exit</a></li>
                         </ul>
                     </aside>
 
@@ -75,10 +74,21 @@
                     close_on_click: true
                 }
             });
-            function exitbtn(){
-            finish();
-            return;
+            
+
+       /* var doubleBackToExitPressedOnce = false;
+        function onBackPressed() {
+            if (doubleBackToExitPressedOnce) {
+                onBackPressed();
+                return;
             }
+
+            this.doubleBackToExitPressedOnce = true;
+            */
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+
+        
         </script>
     </body>
 </html>
