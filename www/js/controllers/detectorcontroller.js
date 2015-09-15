@@ -11,11 +11,15 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             if (window.navigator && window.navigator.vibrate) {
                 window.navigator.vibrate(level);
             } else {
-                navigator.notification.beep(level)
+                if (navigator && navigator.vibrate) {
+                    navigator.vibrate(level);
+                } else {
+                    navigator.notification.beep(level);
+                }
             }
         },
         stopVibrate = function () {
-            navigator.vibrate(0);
+            startVibrate(0);
         },
         showError = function (msg) {
             var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
@@ -69,8 +73,8 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             angles.leftEye = 0;
             angles.rightEye = 0;
             angles.calibrated = false;
-            stopVibrate();
             $("#btnCalibrator").removeClass('success calibrated').addClass('alert').text("Point & Calibrate");
+            stopVibrate();
         } else {
             angles.calibrated = true;
             angles.calibration = angles.alpha;
