@@ -18,16 +18,21 @@
         </tr>
         <tr>
             <td>
-                Position
+                Position-X:
             </td>
             <td>
-                X :
                 <input type="range" ng-model="dot.x" min="1" max="400" ng-change="calcStyle(dot);" />
-                <span ng-bind="dot.x"></span>
+            </td>
+            <td><span ng-bind="dot.x"></span></td>
+        </tr>
+        <tr>
+            <td>
+                Position-Y:
             </td>
             <td>
-                Y :
                 <input type="range" ng-model="dot.y" min="1" max="400" ng-change="calcStyle(dot);" />
+            </td>
+            <td>
                 <span ng-bind="dot.y"></span>
             </td>
             <td></td>
