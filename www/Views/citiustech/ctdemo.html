@@ -1,0 +1,38 @@
+﻿<div ng-init="init()" id="ctDemoScreen">
+
+    <div class="controlPanel">
+        <a class="button success expand" ng-click="stopFlickler(dot);"> {{ controlPanelClicked ? 'Start' : 'Stop' }} Flicker</a>
+    </div>
+    <table ng-show="controlPanelClicked">
+        <tr>
+            <td>
+                Diameter:
+            </td>
+            <td>
+                <input type="range" ng-model="dot.diameter" min="1" max="300" ng-change="calcStyle(dot);" />
+            </td>
+            <td>
+                <span ng-bind="dot.diameter"></span>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                Position
+            </td>
+            <td>
+                X :
+                <input type="range" ng-model="dot.x" min="1" max="400" ng-change="calcStyle(dot);" />
+                <span ng-bind="dot.x"></span>
+            </td>
+            <td>
+                Y :
+                <input type="range" ng-model="dot.y" min="1" max="400" ng-change="calcStyle(dot);" />
+                <span ng-bind="dot.y"></span>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <div id="circle" ng-style="style(dot)">
+    </div>
+</div>
