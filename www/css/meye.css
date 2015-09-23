@@ -15,6 +15,7 @@
         transition-property: width,height,left,top;
         max-width: 300px;
         max-height: 300px;
+        z-index:100;
     }
 
 #ctDemoScreen {

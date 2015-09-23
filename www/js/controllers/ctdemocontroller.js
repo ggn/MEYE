@@ -16,8 +16,8 @@ $PortalApp.controller('ctdemocontroller', function ($scope, $interval) {
     };
     $scope.dot = {
         diameter: 100,
-        x: 150,
-        y: 200,
+        x: 125,
+        y: 300,
         r: 255,
         g: 255,
         b: 255,
