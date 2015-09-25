@@ -8,7 +8,7 @@ $PortalApp.controller('ctdemocontroller', function ($scope, $interval) {
                 $scope.dot.r = $scope.dot.b = $scope.dot.g = 0;
             };
             $scope.calcStyle(dot);
-        }, 100);
+        }, dot.flicker);
     };
     var clearFlickerer = function () {
         $interval.cancel(flickerer);
@@ -21,6 +21,7 @@ $PortalApp.controller('ctdemocontroller', function ($scope, $interval) {
         r: 255,
         g: 255,
         b: 255,
+        flicker:250,
         style: {}
     };
 
